@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+All categories
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Magazin</h1>
+<hr>
+{% for category in categories %}
+<h3><a href="{% url 'category' category.id %}">{{category.title}}</a></h3>
+{% empty %}
+<h3>Categories none</h3>
+{% endfor %}
+{% endblock %}

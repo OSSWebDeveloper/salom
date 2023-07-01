@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{post.title}}
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center">{{post.title}}</h2>
+<h4>Stop comment</h4>
+<p>comment:{{post.comment_set.count}}</p>
+<hr>
+{% if post.image.url != null %}
+<img src="{{ post.image.url }}" class="card-img-top" alt="{{post.title}}">
+{% endif %}
+<p>{{post.content}}</p>
+
+
+
+
+<h4>O'z fikringizni qoldiring</h4>
+<p>Kommentariyalar : {{post.comment_set.count}}</p>
+<hr>
+{% if user.is_authenticated %}
+<form action="{% url 'comment' post.id %}" method="POST">
+    {% csrf_token %}
+    <textarea required name="text" class="form-control"></textarea>
+    <p class="text-right">
+        <br>
+        <button type="submit" class="btn btn-primary">Yuborish</button>
+    </p>
+</form>
+{% endif %}
+{% for comment in post.comment_set.all %}
+<h4>
+    {% if comment.author.first_name != null %}
+    {{comment.author.first_name}} {{ comment.author.last_name }}
+    {% endif %}
+    {{comment.author.username}}
+</h4>
+<p>
+    {{comment.text}}
+</p>
+<div class="row">
+    
+    <p class="text-right col-md-10">{{comment.date|timesince}} Oldin</p>
+</div>
+
+{% endfor %}
+
+{% if post.image.url != null %}
+<img src="{{post.image.url}}" alt="">
+{% endif %}
+<p>{{post.content}}</p>
+<b>{{post.data}}</b>
+<h3><b>{{post.}}</b> </h3>
+{% endblock %}
